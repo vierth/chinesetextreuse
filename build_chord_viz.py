@@ -11,7 +11,7 @@ import json
 #******************#
 
 # Which documents would you like to compare? Put their names in this list
-comparison_texts = ["06-01-24-74", "06-01-24-73"]
+comparison_texts = ["KR2a0020 魏書-北齊-魏收", "KR2a0019 陳書-唐-姚思廉", "KR2a0018 梁書-唐-姚思廉"]
 
 #*********************#
 # START OF MAIN LOGIC #
