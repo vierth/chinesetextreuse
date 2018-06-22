@@ -5,13 +5,10 @@ are listed, this operates on the entire corpus, but can be very slow
 depending on corpus size.
 '''
 
-import pickle, os
+import pickle, os, time, sys, Levenshtein
 import numpy as np
-import time, sys
 from multiprocessing import Pool
 from itertools import repeat, chain
-
-import Levenshtein
 
 #********************#
 # DOCUMENTS TO ALIGN #
@@ -20,7 +17,7 @@ import Levenshtein
 # Align quotes occuring between the following documents. Provide at
 # least two. If None, all quotes will be aligned. If your corpus contains
 # signficant reuse, this may be slow.
-alignment_docs = None
+alignment_docs = ["KR2a0020 魏書-北齊-魏收", "KR2a0019 陳書-唐-姚思廉", "KR2a0018 梁書-唐-姚思廉"]
 
 
 #**********************#
