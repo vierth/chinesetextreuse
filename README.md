@@ -41,14 +41,15 @@ The corpus was chosen for a balance between size and speed of processing to demo
 creates an index (saved in database)
 You can optionally create an index for the corpus. This will significantly speed up intertextuality detection.
 It will, however, also significantly increase disk space and memory usage. I recommend using this only if your
-corpus is over 10 texts and 60 million characters. Otherwise, the overhead of creating the index is not worth
+corpus is over 10 texts and 1 million characters. Otherwise, the overhead of creating the index is not worth
 the savings it provides.
 
 Here you can set the seed lenght used for identifying reuse. You can also set this in detect_intertextuality.py
 for when you create the corpus on the fly.
 
 Creates a sqlite database called "index.db" with an "info" table with textid and data columns
-Data is saved on a per text basis as a json string.
+Data is saved on a per text basis as a json string. The size of this index tends to be about 4 times the size
+of the prepared corpus file.
 
 
 # Step Two
