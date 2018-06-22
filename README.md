@@ -12,6 +12,8 @@ pip install python-Levenshtein
 
 Note that this suite of tools uses Pickle for object serialization. Be wary of unpickling files from untrusted sources!
 
+As of June 22nd, 2018, this may not be compatible with Windows systems because of issues with the Python multiprocessing
+library. I plan to fix this in the near future.
 
 # Step One
 ## prepare_corpus.py   
@@ -31,6 +33,8 @@ and a list of the text contents
 The included corpus is derived from the Kanripo shadow repository at https://github.com/kr-shadow/KR2
 It is a limited collection of historical documents to be used for testing the algorithm.
 Thanks to Christian Wittern for the compilation of this dataset.
+
+The corpus was chosen for a balance between size and speed of processing to demonstrate the code. It should stay under 16GB of RAM, but depending on your exact set up, it may exceed this.
 
 ## Optional
 ## index_corpus.py 
