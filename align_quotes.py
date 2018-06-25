@@ -17,7 +17,7 @@ from itertools import repeat, chain
 # Align quotes occuring between the following documents. Provide at
 # least two. If None, all quotes will be aligned. If your corpus contains
 # signficant reuse, this may be slow.
-alignment_docs = ["KR2a0020 魏書-北齊-魏收", "KR2a0019 陳書-唐-姚思廉", "KR2a0018 梁書-唐-姚思廉"]
+alignment_docs = ["KR2b0017 皇王大紀-宋-胡宏","KR2b0003 前漢紀-漢-荀悅","KR2a0016 宋書-梁-沈約"]
 
 
 #**********************#
@@ -226,8 +226,8 @@ def runalignment(content,totallength):
         aligneda, alignedb = align(info[6], info[7])
 
         # Save the information
-        info[5] = aligneda
-        info[6] = alignedb
+        info[6] = aligneda
+        info[7] = alignedb
         content = "\t".join(info)
     tracker += 1
     if tracker % 1000 == 0:
@@ -276,7 +276,6 @@ with open(CORPUSRESULTS, "r") as rf:
 
 # Remove blank results and flatten the list    
 save_contents = [s for s in results if len(s) > 0]
-save_contents = list(chain(*save_contents))
 
 with open(OUTPUTFILE, "w") as wf:
     wf.write("\n".join(save_contents))

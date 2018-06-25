@@ -72,7 +72,7 @@ for root, dirs, files in os.walk('corpus'):
             all_filenames.append(file_name)
         
         # print tracking statement
-        sys.stdout.write(f"{i} documents of {len(files)} completed\r")
+        sys.stdout.write(f"{i + 1} documents of {len(files)} completed\r")
         sys.stdout.flush()
 
 # Print basic corpus information

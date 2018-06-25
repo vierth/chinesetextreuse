@@ -11,7 +11,7 @@ import json
 #******************#
 
 # Which documents would you like to compare? Put their names in this list
-comparison_texts = ["KR2a0020 魏書-北齊-魏收", "KR2a0019 陳書-唐-姚思廉", "KR2a0018 梁書-唐-姚思廉"]
+comparison_texts = ["KR2b0017 皇王大紀-宋-胡宏","KR2b0003 前漢紀-漢-荀悅","KR2a0016 宋書-梁-沈約"]
 
 #*********************#
 # START OF MAIN LOGIC #
@@ -26,7 +26,7 @@ with open("corpus_text_lengths.txt", "r") as datafile:
         info = line.split("\t")
         if info[0] in comparison_texts:
             meta = info[0].split("_")[0].split("-")
-            author = meta[0]
+            title = meta[0]
             era = meta[1]
             author = meta[2]
             doc_lengths.append({"doc":info[0],"len":int(info[1]),"era": era, 'author':author,'title':title})

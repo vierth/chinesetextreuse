@@ -130,8 +130,8 @@ let ribbongroup = g.append("g")
         })
 
 function displayquote(d){
-    t1.classed("hidden", false).text("Text 1: " + d.sourcetitle) 
-    t2.classed("hidden", false).text("Text 2: " + d.targettitle)
+    t1.classed("hidden", false).text(d.sourcetitle) 
+    t2.classed("hidden", false).text(d.targettitle)
     t1s.classed("hidden", false).text(d.sourcestart + charoffset)
     t2s.classed("hidden", false).text(d.targetstart + charoffset)
     leftb.classed("hidden", false)
