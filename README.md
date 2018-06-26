@@ -34,6 +34,8 @@ The included corpus is derived from the Kanripo shadow repository at https://git
 It is a limited collection of historical documents to be used for testing the algorithm.
 Thanks to Christian Wittern for the compilation of this dataset.
 
+This is a corpus of 63 historical texts divided into their 4,400 constituent juan (scroll or fascicle).
+
 The corpus was chosen for a balance between size and speed of processing to demonstrate the code. It should stay under 16GB of RAM, but depending on your exact set up, it may exceed this.
 
 ## Optional
