@@ -1,0 +1,3 @@
+#+TITLE: 元經-隋-王通
+#+DATE: 2016-06-11 12:20:54
+#+SOURCE: github.com/kanripo/KR2b0005 master 5f952b95                
