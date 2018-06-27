@@ -17,7 +17,7 @@ library. I plan to fix this in the near future.
 
 # Step One
 ## prepare_corpus.py   
-cleans and preps corpus
+Cleans and preps corpus.
 Outputs a pickle file containing the cleaned texts and file titles.
 This script assumes that the files in the corpus have the following structure for their name:
 
