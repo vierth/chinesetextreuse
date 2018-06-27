@@ -79,7 +79,7 @@ RESULT_DIRECTORY = 'results/'
 # have been compared and also deletes results from old runs.foranalysis.txt"
 # If this is False, then the script can be stopped and restarted
 # without losing progress.
-DEBUG=True
+DEBUG=False
 
 # This following setting is necessary because of the multiprocessing module
 # The higher the maxtasks, the faster the processing is but the more memory
@@ -87,7 +87,7 @@ DEBUG=True
 # Set to None if you don't want to have processes expire, but watch out for
 # large memory use spikes. The multiprocessing occurs at the document level,
 # so if you have fewer documents, you can also use fewer tasks
-MAXCHILDTASKS = 25
+MAXCHILDTASKS = 150
 
 #***********************#
 #  Initial data loading #
