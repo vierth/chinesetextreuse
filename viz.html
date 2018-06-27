@@ -130,8 +130,17 @@ let ribbongroup = g.append("g")
         })
 
 function displayquote(d){
-    t1.classed("hidden", false).text(d.sourcetitle) 
-    t2.classed("hidden", false).text(d.targettitle)
+    if (d.sourcetitle.length > 14){
+        t1.classed("hidden", false).text(d.sourcetitle.substring(0,14)+"...") 
+    } else {
+        t1.classed("hidden", false).text(d.sourcetitle) 
+    }
+    if (d.targettitle.length > 14){
+        t2.classed("hidden", false).text(d.targettitle.substring(0,14)+"...")
+    } else {
+        t2.classed("hidden", false).text(d.targettitle)
+    }
+    
     t1s.classed("hidden", false).text(d.sourcestart + charoffset)
     t2s.classed("hidden", false).text(d.targetstart + charoffset)
     leftb.classed("hidden", false)
@@ -337,7 +346,7 @@ function downalignment(){
 }
 
 function next(){
-    for (i = charoffset; i < currentdata.sourcequote.length; i++){
+    for (i = charoffset + 1; i < currentdata.sourcequote.length; i++){
         if (currentdata.sourcequote[i] != currentdata.targetquote[i]){
             charoffset = i;
             break;
@@ -348,13 +357,14 @@ function next(){
             charoffset = currentdata.sourcequote.length - 75;
         }
     } else {
-        charoffset = 0;
+        charoffset = currentdata.sourcequote.length - 75;
     }
+    console.log(charoffset)
     displayquote(currentdata)
 }
 
 function prev(){
-    for (i = charoffset; i >= 0; i--){
+    for (i = charoffset - 1; i >= 0; i--){
         if (currentdata.sourcequote[i] != currentdata.targetquote[i]){
             charoffset = i;
             break;
