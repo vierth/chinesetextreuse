@@ -11,7 +11,7 @@ import json
 #******************#
 
 # Which documents would you like to compare? Put their names in this list
-comparison_texts = ["KR2b0017 皇王大紀-宋-胡宏","KR2b0003 前漢紀-漢-荀悅","KR2a0016 宋書-梁-沈約"]
+comparison_texts = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
 
 #*********************#
 # START OF MAIN LOGIC #
