@@ -17,7 +17,7 @@ from itertools import repeat, chain
 # Align quotes occuring between the following documents. Provide at
 # least two. If None, all quotes will be aligned. If your corpus contains
 # signficant reuse, this may be slow.
-alignment_docs = ["KR2b0017 皇王大紀-宋-胡宏","KR2b0003 前漢紀-漢-荀悅","KR2a0016 宋書-梁-沈約"]
+alignment_docs = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
 
 
 #**********************#
