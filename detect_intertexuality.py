@@ -89,6 +89,10 @@ DEBUG=False
 # so if you have fewer documents, you can also use fewer tasks
 MAXCHILDTASKS = 150
 
+# You can sort so the longest texts will be processed first. This will speed
+# up overall processing time at the cost of RAM usuage.
+FRONTLOADLONG = True
+
 #***********************#
 #  Initial data loading #
 #***********************#
@@ -434,8 +438,8 @@ total_completed_files = len(completed)
 
 # If there is no prepared index, order the texts by size.
 # This speeds up calculation times by ensuring that long indices are not calculated
-# more than necessary.
-if not PREPPEDINDEX:
+# more than necessary. This can optionally be turned off.
+if not PREPPEDINDEX and FRONTLOADLONG:
     analysislengths = {}
     for f in analysisfiles:
         textlocation = titletoindex[f]
