@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
 This script takes every file in a folder and transforms it into a serialized 
 object that can be used to study intertextuality at a large level. This is the 
@@ -36,20 +38,21 @@ corpusFolder = "corpus"
 #**********************#
 
 # clean the text. This will remove everything in the above list from the text
-def clean(content,remove):
+def clean(content, remove, removeWS):
     # These two lines are useful for Chinese texts where there was no 
     # whitespace or punctuation in the original documents
-	content = re.sub('\s+', '', content)
-	for item in remove:
-		content = content.replace(item, "")
-	return content
+    if removeWS:
+	    content = re.sub('\s+', '', content)
+    for item in remove:
+        content = content.replace(item, "")
+    return content
 
 #*********************#
 # START OF MAIN LOGIC #
 #*********************#
 
-def run(corpusFolder, pickleFile, CORPUS_ENCODING="utf8", 
-        ERROR_HANDLING="ignore"):
+def createCorpus(corpusFolder, pickleFile, CORPUS_ENCODING="utf8", 
+        ERROR_HANDLING="ignore", removeChars=toRemove, removeWS = True):
     # containers for the data. The final file will be a list of lists. The first 
     # item will be metadata, and the second item will be the texts themselves.
     allFilenames = []
@@ -71,7 +74,7 @@ def run(corpusFolder, pickleFile, CORPUS_ENCODING="utf8",
             with open(os.path.join(root, f), "r", encoding=CORPUS_ENCODING, errors=ERROR_HANDLING) as tf:
                 # clean text, append it to all texts, and increment total length 
                 # tracker
-                text = clean(tf.read(),toremove)
+                text = clean(tf.read(),removeChars, removeWS)
                 allTexts.append(text)
                 totalCharacters += len(text)
 
@@ -89,4 +92,4 @@ def run(corpusFolder, pickleFile, CORPUS_ENCODING="utf8",
     pickle.dump([allFilenames, allTexts], open(pickleFile, "wb"))
 
 if __name__ == "__main__":
-    run(corpusFolder, pickleFile)
+    createCorpus(corpusFolder, pickleFile)
