@@ -42,7 +42,7 @@ def clean(content, remove, removeWS):
     # These two lines are useful for Chinese texts where there was no 
     # whitespace or punctuation in the original documents
     if removeWS:
-	    content = re.sub('\s+', '', content)
+        content = re.sub('\s+', '', content)
     for item in remove:
         content = content.replace(item, "")
     return content

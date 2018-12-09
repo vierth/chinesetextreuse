@@ -4,16 +4,25 @@ prevents mistakes in the order in which the code needs to run.
 '''
 
 from prepare_corpus import createCorpus
+####################
+# ANALYSIS OPTIONS #
+####################
 
-###############################
-# OPTIONS FOR CORPUS CREATION #
-###############################
+###################
+# CORPUS CREATION #
+###################
 
 # Name of the folder that contains the corpus
 corpusFolder = "corpus"
 
 # Name of corpus save file.
 pickleFile = "corpus.pickle"
+
+#################
+# INDEX OPTIONS #
+#################
+
+
 
 
 def run():
