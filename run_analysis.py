@@ -64,9 +64,11 @@ def run():
 
     # Run the main intertextuality algorithm
     
+    # Other options are  maxChildTasks=250,  frontLoading=True, 
+    # textsToAnalyze="filename.txt", corpusComposition="filename.txt"
     detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
                           pickleFile, hasPreppedIndex=buildIndex, 
-                          indexFile=indexFile)
+                          indexFile=indexFile, DEBUG= False)
 
 if __name__ == "__main__":
     run()

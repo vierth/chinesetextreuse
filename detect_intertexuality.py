@@ -352,17 +352,15 @@ def comparetexts(sourcetext, sourcetitle, targetmeta, targettext,
 #*********************#
 
 def detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
-                          pickleFile, 
-                          hasPreppedIndex=False, indexFile=None, DEBUG=False, 
-                          maxChildTasks=250,  frontLoading=True, 
+                          pickleFile, hasPreppedIndex=False, indexFile=None, 
+                          DEBUG=False, maxChildTasks=250,  frontLoading=True, 
                           textsToAnalyze=None, corpusComposition=None):
 
     # Set up matching parameter object:
     global mParams
     global preppedIndex
     preppedIndex = hasPreppedIndex
-    mParams = matchParams(seedLength, matchLength, threshhold,
-                         maxComp)
+    mParams = matchParams(seedLength, matchLength, threshhold, maxComp)
     # Load data from pickle. This is a list of information. Metadata at index 0
     # The texts are at index 1
     data = pickle.load(open(pickleFile,"rb"))
