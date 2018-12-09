@@ -5,6 +5,8 @@ prevents mistakes in the order in which the code needs to run.
 
 from prepare_corpus import createCorpus
 from index_corpus import formIndex
+from detect_intertexuality import detectIntertextuality
+
 ####################
 # ANALYSIS OPTIONS #
 ####################
@@ -46,6 +48,9 @@ def run():
     if buildIndex:
         print("Creating Index")
         formIndex(seedLength, pickleFile, indexFile)
+
+    # Run the main intertextuality algorithm
+    detectIntertextuality(seedLength, pickleFile)
 
 if __name__ == "__main__":
     run()
