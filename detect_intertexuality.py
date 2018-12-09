@@ -354,7 +354,8 @@ def comparetexts(sourcetext, sourcetitle, targetmeta, targettext,
 def detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
                           pickleFile, hasPreppedIndex=False, indexFile=None, 
                           DEBUG=False, maxChildTasks=250,  frontLoading=True, 
-                          textsToAnalyze=None, corpusComposition=None):
+                          textsToAnalyze=None, corpusComposition=None, 
+                          resultsDirectory="results", setEncoding='utf8'):
 
     # Set up matching parameter object:
     global mParams
@@ -412,9 +413,9 @@ def detectIntertextuality(seedLength, matchLength, threshhold, maxComp,
         completed=[]
         if os.path.isfile("completed_files.txt"):
             os.remove("completed_files.txt")
-        if os.path.exists(RESULT_DIRECTORY):
-            shutil.rmtree(RESULT_DIRECTORY)
-            os.mkdir(RESULT_DIRECTORY)
+        if os.path.exists(resultsDirectory):
+            shutil.rmtree(resultsDirectory)
+            os.mkdir(resultsDirectory)
 
 
     # Create an empty list to keep track of how long the program is running
@@ -467,8 +468,8 @@ def detectIntertextuality(seedLength, matchLength, threshhold, maxComp,
     comparativefiles = [c for c in comparativefiles if c != ""]
 
     # If the RESULT_DIRECTORY does not exist, create it
-    if not os.path.exists(RESULT_DIRECTORY):
-        os.mkdir(RESULT_DIRECTORY)
+    if not os.path.exists(resultsDirectory):
+        os.mkdir(resultsDirectory)
     
     # Track how many files have been completed
     total_completed_files = len(completed)
@@ -540,7 +541,7 @@ def detectIntertextuality(seedLength, matchLength, threshhold, maxComp,
         filtered_results = list(itertools.chain(*filtered_results))
 
         # write the results to file:
-        with open(RESULT_DIRECTORY + f + ".txt","w") as wf:
+        with open(os.path.join(resultsDirectory, f + ".txt"),"w", encoding='setEncoding') as wf:
             wf.write("TargetTitle\tLength\tratio\tSource place\tTarget place\tAnalysis text\tTarget text\n")
             wf.write("\n".join(filtered_results))
         

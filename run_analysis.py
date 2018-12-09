@@ -6,6 +6,7 @@ prevents mistakes in the order in which the code needs to run.
 from prepare_corpus import createCorpus
 from index_corpus import formIndex
 from detect_intertexuality import detectIntertextuality
+from compile_and_filter_results import compileFilter
 
 ####################
 # ANALYSIS OPTIONS #
@@ -47,6 +48,24 @@ buildIndex = True
 # Output corpus file (should end with .db). Can be None if buildIndex is false
 indexFile = 'index.db'
 
+
+################
+# OUTPUT FILES #
+################
+
+# where should the results be saved
+resultsCorpus="results"
+
+filterCommon=True
+
+filterSimilar=True
+
+outputFile="corpus_results.txt"
+
+minimumQuoteThresh = 400
+
+minimumSimilarityThreshold = .6
+
 ################
 # RUN FUNCTION #
 ################
@@ -66,9 +85,16 @@ def run():
     
     # Other options are  maxChildTasks=250,  frontLoading=True, 
     # textsToAnalyze="filename.txt", corpusComposition="filename.txt"
-    detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
-                          pickleFile, hasPreppedIndex=buildIndex, 
-                          indexFile=indexFile, DEBUG= False)
+    # setEncoding='utf8', resultsDirectory="results"
+    #detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
+    #                      pickleFile, hasPreppedIndex=buildIndex, 
+    #                      indexFile=indexFile, DEBUG= False)
+
+    # Compile and filter the results
+    compileFilter(resultsCorpus=resultsCorpus, filterCommon=filterCommon, 
+                  outputFile=outputFile, threshold=minimumQuoteThresh, 
+                  filtersimilar=filterSimilar, 
+                  simthresh=minimumSimilarityThreshold)
 
 if __name__ == "__main__":
     run()

@@ -115,36 +115,40 @@ def remove_common(quoteinfo, threshold=REPMAX,filtersimilar=FILTERSIMILAR,simthr
 #*********************#
 # START OF MAIN LOGIC #
 #*********************#
+def compileFilter(resultsCorpus="results", filterCommon=True, outputFile="corpus_results.txt", threshold=400, filtersimilar=True,simthresh=.6):
+    # Start timer
+    gs = time.time()
 
-# Start timer
-gs = time.time()
+    # Container for the resulting information
+    results = []
 
-# Container for the resulting information
-results = []
+    # Compile results into a single list
+    for root, dirs, files in os.walk(resultsCorpus):
+        for i,f in enumerate(files):
+            with open(os.path.join(root, f), "r") as rf:
+                contents = rf.read().split("\n")
+                for line in contents:
+                    if line[:11] != "TargetTitle" and len(line) > 0:
+                        results.append(f"{f[:-4]}\t{line}")
+            sys.stdout.write(f"{i + 1} results of {len(files)} processed.\r")
+            sys.stdout.flush()
 
-# Compile results into a single list
-for root, dirs, files in os.walk(QUOTERESULTCORPUS):
-    for i,f in enumerate(files):
-        with open(f"{root}/{f}", "r") as rf:
-            contents = rf.read().split("\n")
-            for line in contents:
-                if line[:11] != "TargetTitle" and len(line) > 0:
-                    results.append(f"{f[:-4]}\t{line}")
-        sys.stdout.write(f"{i + 1} results of {len(files)} processed.\r")
-        sys.stdout.flush()
+    # Filter empty results (just in case)
+    results = [r for r in results if len(r) > 0]
 
-# Filter empty results (just in case)
-results = [r for r in results if len(r) > 0]
+    # Filter out common quotes if desired
+    if filterCommon:
+        results = remove_common(results, threshold=threshold,filtersimilar=filtersimilar,simthresh=simthresh)
 
-# Filter out common quotes if desired
-if FILTERCOMMON:
-    results = remove_common(results)
+    # Write results to file
+    with open(outputFile, "w") as wf:
+        wf.write("SourceTitle\tTargetTitle\tLength\tRatio\tSourcePlace\tTargetPlace\tSourceText\tTargetText\n")
+        wf.write("\n".join(results))
 
-# Write results to file
-with open(OUTPUTFILE, "w") as wf:
-    wf.write("SourceTitle\tTargetTitle\tLength\tRatio\tSourcePlace\tTargetPlace\tSourceText\tTargetText\n")
-    wf.write("\n".join(results))
+    ge = time.time()
+    gt = ge-gs
+    print(f"Global Operation completed in {gt:.2f} seconds")
 
-ge = time.time()
-gt = ge-gs
-print(f"Global Operation completed in {gt:.2f} seconds")
+if __name__ == "__main__":
+
+    compileFilter()
