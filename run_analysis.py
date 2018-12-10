@@ -27,15 +27,23 @@ threshhold = .8
 # speeds the calculations up.
 maxComp = 100
 
-###################
-# CORPUS CREATION #
-###################
+############################
+# CORPUS AND FILE CREATION #
+############################
 
 # Name of the folder that contains the corpus
 corpusFolder = "corpus"
 
 # Name of corpus save file.
 pickleFile = "corpus.pickle"
+
+# where should the results be saved
+resultsCorpus="results"
+
+# What should the final output file be called?
+outputFile="corpus_results.txt"
+
+# What should the aligned output file be called?
 
 
 #################
@@ -49,21 +57,20 @@ buildIndex = True
 indexFile = 'index.db'
 
 
-################
-# OUTPUT FILES #
-################
-
-# where should the results be saved
-resultsCorpus="results"
-
+#####################
+# FILTERING OPTIONS #
+#####################
+# Do you want to filter the most common quotes?
 filterCommon=True
 
+# Do you want to filter quotes that are similar to the common quotes 
+# (increases) processing time.
 filterSimilar=True
 
-outputFile="corpus_results.txt"
-
+# How often does a quote need to appear to be "common"?
 minimumQuoteThresh = 400
 
+# How similar does a quote need to be to be filtered?
 minimumSimilarityThreshold = .6
 
 ################
@@ -91,10 +98,10 @@ def run():
     #                      indexFile=indexFile, DEBUG= False)
 
     # Compile and filter the results
-    compileFilter(resultsCorpus=resultsCorpus, filterCommon=filterCommon, 
-                  outputFile=outputFile, threshold=minimumQuoteThresh, 
-                  filtersimilar=filterSimilar, 
-                  simthresh=minimumSimilarityThreshold)
+    # compileFilter(resultsCorpus=resultsCorpus, filterCommon=filterCommon, 
+    #               outputFile=outputFile, threshold=minimumQuoteThresh, 
+    #               filtersimilar=filterSimilar, 
+    #               simthresh=minimumSimilarityThreshold)
 
 if __name__ == "__main__":
     run()

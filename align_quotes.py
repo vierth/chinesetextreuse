@@ -14,9 +14,9 @@ from itertools import repeat, chain
 # DOCUMENTS TO ALIGN #
 #********************#
 
-# Align quotes occuring between the following documents. Provide at
-# least two. If None, all quotes will be aligned. If your corpus contains
-# signficant reuse, this may be slow.
+# Align quotes occuring between the following documents. Provide at least two. 
+# If None, all quotes will be aligned. If your corpus contains signficant 
+# reuse, this may be slow.
 alignment_docs = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
 
 
@@ -24,31 +24,15 @@ alignment_docs = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延
 # ALIGNMENT PARAMETERS #
 #**********************#
 
-# Match, mismatch, and gap scores
-MATCHSCORE = 1
-MISALIGNSCORE = -1
-MISMATCHSCORE = -1
-
-# Limit the length of text that will be aligned
-# This significantly speeds up the algorithm when
-# aligning very long quotes. This divides the quotes
-# into blocks of CHUNKLIM length. It tries to divide
-# the chunks in places where the alignment is exact
-# So OVERLAP looks at the 10 character before and after
-# the proposed break. When it finds RANGEMATCH exact
-# characters, it inserts a break in the middle.
-CHUNKLIM = 200
-OVERLAP = 10
-RANGEMATCH = 6
-
-
-#************************#
-# Input and output files #
-#************************#
-# Input
-CORPUSRESULTS = "corpus_results.txt"
-# Output
-OUTPUTFILE = "corpus_alignment.txt"
+class alignmentParameters:
+    def __init__(self, matchScore, misalignScore, mismatchScore, chunkLim, 
+                 overlap, rangeMatch):
+        self.matchScore = matchScore
+        self.misalignScore = misalignScore
+        self.mismatchScore = mismatchScore
+        self.chunkLim = chunkLim
+        self.overlap = overlap
+        self.rangeMatch = rangeMatch
 
 
 
@@ -65,28 +49,28 @@ tracker = 0
 # Divide texts into smaller chunks of a certain maximum length
 # To optimze for later alignment, divide texts in areas of high
 # homology
-def divtexts(quote1, quote2, chunklimit,overlap,rangecheck):
-    chunks = len(quote1)//chunklimit
+def divtexts(quote1, quote2, aParams):
+    chunks = len(quote1)//aParams.chunkLim
     qs1 = 0
     qs2 = 0
     chunkedTexts = []
     for chunk in range(chunks + 1):
         if chunk != chunks:
-            tqe1 = (chunk+1)*chunklimit
-            tqe2 = (chunk+1)*chunklimit
+            tqe1 = (chunk+1)*aParams.chunkLim
+            tqe2 = (chunk+1)*aParams.chunkLim
         
             # retreive the boundary region
-            tqr1 = quote1[tqe1-rangecheck:tqe1+rangecheck]
-            tqr2 = quote2[tqe2-rangecheck:tqe2+rangecheck]
+            tqr1 = quote1[tqe1-aParams.rangeMatch:tqe1+aParams.rangeMatch]
+            tqr2 = quote2[tqe2-aParams.rangeMatch:tqe2+aParams.rangeMatch]
             
             # identify a stretch of identical overlap and save the midpoint
             qe1 = None
             qe2 = None
-            for i in range(len(tqr1)-overlap):
-                for j in range(len(tqr2)-overlap):
-                    if tqr1[i:i+overlap] == tqr2[j:j+overlap]:
-                        qe1 = tqe1 - rangecheck + i + overlap//2
-                        qe2 = tqe2 - rangecheck + i + overlap//2
+            for i in range(len(tqr1)-aParams.overlap):
+                for j in range(len(tqr2)-aParams.overlap):
+                    if tqr1[i:i+aParams.overlap] == tqr2[j:j+aParams.overlap]:
+                        qe1 = tqe1 - aParams.rangeMatch + i + aParams.overlap//2
+                        qe2 = tqe2 - aParams.rangeMatch + i + aParams.overlap//2
             # If no region is identified, just cut at initial boundary
             if not qe1:
                 qe1 = tqe1
@@ -106,15 +90,16 @@ def divtexts(quote1, quote2, chunklimit,overlap,rangecheck):
                 chunkedTexts.append([quote1[qs1:],quote2[qs2:]])
     return chunkedTexts
         
-# Algorithm used for quote alignment. Insights into how this work come from the original
-# Needleman-Wunsch article, but also from http://www.biorecipes.com/DynProgBasic/code.html
-def align(quote1, quote2,matchscore=MATCHSCORE,misalignscore=MISALIGNSCORE,mismatchscore=MISMATCHSCORE, chunklim=CHUNKLIM):
+# Algorithm used for quote alignment. Insights into how this work come from the 
+# original Needleman-Wunsch article, but also from 
+# http://www.biorecipes.com/DynProgBasic/code.html
+def align(quote1, quote2, aParams):
     
     # The alignment algorithm is O(n^2) so only alinging short chunks speeds
     # the process up. Here I divide each sequence into smaller chunks for 
     # alignment and then recombine them at the end.
-    if len(quote1) > chunklim:
-        textchunks = divtexts(quote1, quote2, CHUNKLIM, OVERLAP, RANGEMATCH)
+    if len(quote1) > aParams.chunkLim:
+        textchunks = divtexts(quote1, quote2, aParams)
     else:
         textchunks = [[quote1, quote2]]
     
@@ -144,17 +129,18 @@ def align(quote1, quote2,matchscore=MATCHSCORE,misalignscore=MISALIGNSCORE,misma
                 # If they are the same, give them the matching score.
                 # Otherwise, give them the mismatch score
                 if c1 == c2:
-                    score = matchscore
+                    score = aParams.matchScore
                 else:
-                    score = mismatchscore
+                    score = aParams.mismatchScore
 
-                # get the pertinent matrix location (which will be both plus one)
+                # get the pertinent matrix location (which will be both plus 
+                # one)
                 matrixrow = i+1
                 matrixcolumn = j+1
 
                 # Calculate scores from top, left, and diagnol
-                upperscore = matrix[i][j+1] + misalignscore
-                leftscore = matrix[i+1][j] + misalignscore
+                upperscore = matrix[i][j+1] + aParams.misalignScore
+                leftscore = matrix[i+1][j] + aParams.misalignScore
                 diagonal = matrix[i][j] + score
 
                 # Select the highest score and place it in the box
@@ -217,13 +203,13 @@ def align(quote1, quote2,matchscore=MATCHSCORE,misalignscore=MISALIGNSCORE,misma
     return total_quote_1, total_quote_2
 
 # Run the process
-def runalignment(content,totallength):
+def runalignment(content,totallength, aParams):
     global tracker
     info = content.split("\t")
     # If the quotes are identical, no need to align them
     if float(info[3]) != 1.0:
         # Run the alignment algorithm
-        aligneda, alignedb = align(info[6], info[7])
+        aligneda, alignedb = align(info[6], info[7], aParams)
 
         # Save the information
         info[6] = aligneda
@@ -239,47 +225,80 @@ def runalignment(content,totallength):
 # START OF MAIN LOGIC #
 #*********************#
 
-# Start a global timer
-gs = time.time()
+def alignQuotes(corpusResults, outputFile, matchScore, misalignScore, 
+                mismatchScore, chunkLim, overlap, rangeMatch, 
+                alignmentDocs=None):
 
-# Initialize thread pool for parallel processing
-pool = Pool()
-runtimes = []
-save_contents = []
+    # create alignment parameter object:
+    aParams = alignmentParameters(matchScore, misalignScore, mismatchScore, chunkLim, 
+    overlap, rangeMatch)
 
+    # Start a global timer
+    gs = time.time()
 
-# Results container
-results = []
-# Iterate through each line in the file aligning the results using map
-with open(CORPUSRESULTS, "r") as rf:
-    contents = rf.read().split("\n")
-    contents = contents[1:]
-    
-    # If alignment_docs have beeen provided, extract the relevant quotes
-    if alignment_docs:
-        use_contents = []
-        pairs = set()
-        for t1 in alignment_docs:
-            for t2 in alignment_docs:
-                if t1 != t2:
-                    pairs.add((t1, t2))
-
-        for line in contents:
-            info = line.split("\t")
-            pair = (info[0], info[1])
-            if pair in pairs:
-                use_contents.append(line)
-        contents = use_contents
-
-    results = pool.starmap(runalignment,zip(contents,repeat(len(contents))))
+    # Initialize thread pool for parallel processing
+    pool = Pool()
+    runtimes = []
+    save_contents = []
 
 
-# Remove blank results and flatten the list    
-save_contents = [s for s in results if len(s) > 0]
+    # Results container
+    results = []
+    # Iterate through each line in the file aligning the results using map
+    with open(corpusResults, "r") as rf:
+        contents = rf.read().split("\n")
+        contents = contents[1:]
+        
+        # If alignment_docs have beeen provided, extract the relevant quotes
+        if alignmentDocs:
+            use_contents = []
+            pairs = set()
+            for t1 in alignmentDocs:
+                for t2 in alignmentDocs:
+                    if t1 != t2:
+                        pairs.add((t1, t2))
 
-with open(OUTPUTFILE, "w") as wf:
-    wf.write("\n".join(save_contents))
+            for line in contents:
+                info = line.split("\t")
+                pair = (info[0], info[1])
+                if pair in pairs:
+                    use_contents.append(line)
+            contents = use_contents
 
-ge = time.time()
-gt = ge-gs
-print(f"Global Operation completed in {gt:.2f} seconds")
+        results = pool.starmap(runalignment,
+                               zip(contents,repeat(len(contents)), 
+                                   repeat(aParams)))
+
+
+    # Remove blank results and flatten the list    
+    save_contents = [s for s in results if len(s) > 0]
+
+    with open(outputFile, "w", encoding="utf8") as wf:
+        wf.write("\n".join(save_contents))
+
+    ge = time.time()
+    gt = ge-gs
+    print(f"Global Operation completed in {gt:.2f} seconds")
+
+# Match, mismatch, and gap scores
+MATCHSCORE = 1
+MISALIGNSCORE = -1
+MISMATCHSCORE = -1
+
+# Limit the length of text that will be aligned
+# This significantly speeds up the algorithm when
+# aligning very long quotes. This divides the quotes
+# into blocks of CHUNKLIM length. It tries to divide
+# the chunks in places where the alignment is exact
+# So OVERLAP looks at the 10 character before and after
+# the proposed break. When it finds RANGEMATCH exact
+# characters, it inserts a break in the middle.
+CHUNKLIM = 200
+OVERLAP = 10
+RANGEMATCH = 6
+
+if __name__ == "__main__":
+    corpusResults = "corpus_results.txt"
+    outputFile = "corpus_alignment.txt"
+    alignmentDocs = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
+    alignQuotes(corpusResults, outputFile, 1, -1, -1, 200, 10, 6, alignmentDocs=alignmentDocs)
