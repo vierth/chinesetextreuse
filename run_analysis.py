@@ -9,6 +9,7 @@ from detect_intertexuality import detectIntertextuality
 from compile_and_filter_results import compileFilter
 from align_quotes import alignQuotes
 from form_quote_system import createNetwork
+from build_chord_viz import createViz
 
 ####################
 # ANALYSIS OPTIONS #
@@ -113,7 +114,8 @@ scoreLimit = 100
 # VIZ OPTIONS #
 ###############
 
-
+# Which documents do you want to visualize? Must be a subset of alignmentDocs
+docsToViz = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
 
 ##################
 # CORPUS DETAILS #
