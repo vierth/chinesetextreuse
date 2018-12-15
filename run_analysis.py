@@ -19,13 +19,13 @@ from build_chord_viz import createViz
 # need to run the corpus formation and index scripts a single time. Just set 
 # these to False to not run them!
 
-runCorpusFormation = True
-runIndex = True
+runCorpusFormation = False
+runIndex = False
 runIntertextualityDetection = True
-runCompileResults = True
-runAlignResults = True
-runBuildNetwork = True
-runBuildViz = True
+runCompileResults = False
+runAlignResults = False
+runBuildNetwork = False
+runBuildViz = False
 
 
 ####################
@@ -149,7 +149,7 @@ maxChildTasks=250
 # overall preformance, with a slight hit to RAM usage
 frontLoading=True
 
- By default, the script will compare every document in the corpus
+# By default, the script will compare every document in the corpus
 # against every other document.
 # Optionally, you can provide a file with a list of titles to analyze
 # Set to None if you do not wish to use this. This will also default
@@ -185,11 +185,12 @@ def run(runCorpusFormation, runIndex, runIntertextualityDetection,
 
     if runIntertextualityDetection:
         # Run the main intertextuality algorithm
+        # Set DEBUG to true if you want to ignore previous progress
         detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
-                             pickleFile, hasPreppedIndex=buildIndex, 
-                             indexFile=indexFile, DEBUG= False,
-                             setEncoding=characterEncoding, 
-                             resultsDirectory=resultsCorpus)
+                              pickleFile, hasPreppedIndex=buildIndex, 
+                              indexFile=indexFile, DEBUG= True,
+                              setEncoding=characterEncoding, 
+                              resultsDirectory=resultsCorpus)
 
     if runCompileResults:
         # Compile and filter the results

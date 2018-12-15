@@ -541,7 +541,7 @@ def detectIntertextuality(seedLength, matchLength, threshhold, maxComp,
         filtered_results = list(itertools.chain(*filtered_results))
 
         # write the results to file:
-        with open(os.path.join(resultsDirectory, f + ".txt"),"w", encoding='setEncoding') as wf:
+        with open(os.path.join(resultsDirectory, f + ".txt"),"w", encoding=setEncoding) as wf:
             wf.write("TargetTitle\tLength\tratio\tSource place\tTarget place\tAnalysis text\tTarget text\n")
             wf.write("\n".join(filtered_results))
         
@@ -592,4 +592,7 @@ if __name__ == "__main__":
 
 
     detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
-                          pickleFile, hasPreppedIndex=False, indexFile=None)
+                          pickleFile, hasPreppedIndex=False, indexFile=None, 
+                          DEBUG=False, maxChildTasks=250,  frontLoading=True, 
+                          textsToAnalyze=None, corpusComposition=None, 
+                          resultsDirectory="results", setEncoding='utf8')
