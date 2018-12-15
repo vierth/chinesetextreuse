@@ -47,6 +47,9 @@ resultsFile="corpus_results.txt"
 # What should the aligned output file be called?
 alignedFile = "corpus_alignment.txt"
 
+# What should the network output file be called?
+networkFile = "edgetable.csv"
+
 #################
 # INDEX OPTIONS #
 #################
@@ -91,6 +94,19 @@ gap = -1
 chunkLim = 200 # limits the number of characters to align at once
 overlap = 10 # how long of an overlap to fuse chunks
 rangeMatch = 6 # how many characters must match to fuse
+
+###################
+# NETWORK OPTIONS #
+###################
+
+# How much matching should there be to produce an edge between documents?
+scoreLimit = 100
+
+###############
+# VIZ OPTIONS #
+###############
+
+
 
 ##################
 # CORPUS DETAILS #
@@ -137,7 +153,8 @@ def run():
     #             setEncoding=characterEncoding)
     
     # create a network from the results
-    # createNetwork()
+    # createNetwork(resultsFile, networkFile, scoreLimit, 
+    #               setEncoding=characterEncoding)
 
     # create a visualization of the intertextuality
     # createViz()
