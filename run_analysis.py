@@ -11,6 +11,23 @@ from align_quotes import alignQuotes
 from form_quote_system import createNetwork
 from build_chord_viz import createViz
 
+#######################
+# WHICH STEPS TO RUN? #
+#######################
+# Each step of the analysis depends on previous ones! By default you can run 
+# any step you choose! If you choose to play around with settings, you may only
+# need to run the corpus formation and index scripts a single time. Just set 
+# these to False to not run them!
+
+runCorpusFormation = True
+runIndex = True
+runIntertextualityDetection = True
+runCompileResults = True
+runAlignResults = True
+runBuildNetwork = True
+runBuildViz = True
+
+
 ####################
 # ANALYSIS OPTIONS #
 ####################
@@ -127,47 +144,58 @@ characterEncoding = "utf8"
 # RUN FUNCTION #
 ################
 
-def run():
-    # Create the corpus file. You can optionally specify if you want to remove
-    # whitespace removeWS (set to True or False), and a list of characters to 
-    # remove removeChars (set to a list)
-    # createCorpus(corpusFolder, pickleFile, CORPUS_ENCODING=characterEncoding)
 
-    # Create an index if desired:
-    #if buildIndex:
-    #    print("Creating Index")
-    #    formIndex(seedLength, pickleFile, indexFile)
-
-    # Run the main intertextuality algorithm
+def run(runCorpusFormation, runIndex, runIntertextualityDetection, 
+        runCompileResults, runAlignResults, runBuildNetwork, runBuildViz):
     
-    # Other options are  maxChildTasks=250,  frontLoading=True, 
-    # textsToAnalyze="filename.txt", corpusComposition="filename.txt"
-    # setEncoding='utf8', resultsDirectory="results"
-    # detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
-    #                      pickleFile, hasPreppedIndex=buildIndex, 
-    #                      indexFile=indexFile, DEBUG= False,
-    #                      setEncoding=characterEncoding)
+    if runCorpusFormation:
+        # Create the corpus file. You can optionally specify if you want to 
+        # remove whitespace removeWS (set to True or False), and a list of 
+        # characters to remove removeChars (set to a list)
+        createCorpus(corpusFolder, pickleFile, 
+                     CORPUS_ENCODING=characterEncoding)
 
-    # Compile and filter the results
-    # Other options are setEncoding='utf8'
-    # compileFilter(resultsCorpus=resultsCorpus, filterCommon=filterCommon, 
-    #               outputFile=resultsFile, threshold=minimumQuoteThresh, 
-    #               filtersimilar=filterSimilar, 
-    #               simthresh=minimumSimilarityThreshold,
-    #               setEncoding=characterEncoding)
+    if runIndex:
+        # Create an index if desired:
+        if buildIndex:
+           print("Creating Index")
+           formIndex(seedLength, pickleFile, indexFile)
 
-    # align the results
-    # alignQuotes(resultsFile, alignedFile, matchingChars, gap, mismatchingChars,
-    #             chunkLim, overlap, rangeMatch, alignmentDocs=alignmentDocs,
-    #             setEncoding=characterEncoding)
-    
-    # create a network from the results
-    # createNetwork(resultsFile, networkFile, scoreLimit, 
-    #               setEncoding=characterEncoding)
+    if runIntertextualityDetection:
+        # Run the main intertextuality algorithm
+        
+        # Other options are  maxChildTasks=250,  frontLoading=True, 
+        # textsToAnalyze="filename.txt", corpusComposition="filename.txt"
+        # resultsDirectory="results"
+        detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
+                             pickleFile, hasPreppedIndex=buildIndex, 
+                             indexFile=indexFile, DEBUG= False,
+                             setEncoding=characterEncoding)
 
-    # create a visualization of the intertextuality
-    createViz(alignedFile, vizFile, docsToViz, textLengthFile, 
-              setEncoding=characterEncoding)
+    if runCompileResults:
+        # Compile and filter the results
+        compileFilter(resultsCorpus=resultsCorpus, filterCommon=filterCommon, 
+                      outputFile=resultsFile, threshold=minimumQuoteThresh, 
+                      filtersimilar=filterSimilar, 
+                      simthresh=minimumSimilarityThreshold,
+                      setEncoding=characterEncoding)
+
+    if runAlignResults:
+        # align the results
+        alignQuotes(resultsFile, alignedFile, matchingChars, gap, 
+                    mismatchingChars, chunkLim, overlap, rangeMatch, 
+                    alignmentDocs=alignmentDocs, setEncoding=characterEncoding)
+
+    if runBuildNetwork:
+        # create a network from the results
+        createNetwork(resultsFile, networkFile, scoreLimit, 
+                      setEncoding=characterEncoding)
+
+    if runBuildViz:
+        # create a visualization of the intertextuality
+        createViz(alignedFile, vizFile, docsToViz, textLengthFile, 
+                setEncoding=characterEncoding)
 
 if __name__ == "__main__":
-    run()
+    run(runCorpusFormation, runIndex, runIntertextualityDetection, 
+        runCompileResults, runAlignResults, runBuildNetwork, runBuildViz)
