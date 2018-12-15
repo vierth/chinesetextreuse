@@ -11,7 +11,7 @@ import json
 #******************#
 
 # Which documents would you like to compare? Put their names in this list
-comparison_texts = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
+docsToViz = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
 
 #*********************#
 # START OF MAIN LOGIC #
@@ -25,7 +25,7 @@ def createViz(alignedFile, outputFile, docsToViz, textLengthFile, setEncoding='u
         lines = contents.split("\n")
         for line in lines:
             info = line.split("\t")
-            if info[0] in comparison_texts:
+            if info[0] in docsToViz:
                 meta = info[0].split("_")[0].split("-")
                 title = meta[0]
                 era = meta[1]

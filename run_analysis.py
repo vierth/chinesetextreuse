@@ -21,11 +21,11 @@ from build_chord_viz import createViz
 
 runCorpusFormation = False
 runIndex = False
-runIntertextualityDetection = True
+runIntertextualityDetection = False
 runCompileResults = False
 runAlignResults = False
 runBuildNetwork = False
-runBuildViz = False
+runBuildViz = True
 
 
 ####################
@@ -132,7 +132,7 @@ scoreLimit = 100
 ###############
 
 # Which documents do you want to visualize? Must be a subset of alignmentDocs
-docsToViz = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
+docsToViz = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54"]
 
 #############################################
 # DETAILS THAT PROBABLY DON'T NEED CHANGING #
