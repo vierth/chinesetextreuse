@@ -115,7 +115,7 @@ def remove_common(quoteinfo, threshold=REPMAX,filtersimilar=FILTERSIMILAR,simthr
 #*********************#
 # START OF MAIN LOGIC #
 #*********************#
-def compileFilter(resultsCorpus="results", filterCommon=True, outputFile="corpus_results.txt", threshold=400, filtersimilar=True,simthresh=.6):
+def compileFilter(resultsCorpus="results", filterCommon=True, outputFile="corpus_results.txt", threshold=400, filtersimilar=True,simthresh=.6, setEncoding="utf8"):
     # Start timer
     gs = time.time()
 
@@ -141,7 +141,7 @@ def compileFilter(resultsCorpus="results", filterCommon=True, outputFile="corpus
         results = remove_common(results, threshold=threshold,filtersimilar=filtersimilar,simthresh=simthresh)
 
     # Write results to file
-    with open(outputFile, "w") as wf:
+    with open(outputFile, "w", encoding=setEncoding) as wf:
         wf.write("SourceTitle\tTargetTitle\tLength\tRatio\tSourcePlace\tTargetPlace\tSourceText\tTargetText\n")
         wf.write("\n".join(results))
 

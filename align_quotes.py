@@ -227,7 +227,7 @@ def runalignment(content,totallength, aParams):
 
 def alignQuotes(corpusResults, outputFile, matchScore, misalignScore, 
                 mismatchScore, chunkLim, overlap, rangeMatch, 
-                alignmentDocs=None):
+                alignmentDocs=None, setEncoding="utf8"):
 
     # create alignment parameter object:
     aParams = alignmentParameters(matchScore, misalignScore, mismatchScore, chunkLim, 
@@ -273,7 +273,7 @@ def alignQuotes(corpusResults, outputFile, matchScore, misalignScore,
     # Remove blank results and flatten the list    
     save_contents = [s for s in results if len(s) > 0]
 
-    with open(outputFile, "w", encoding="utf8") as wf:
+    with open(outputFile, "w", encoding=setEncoding) as wf:
         wf.write("\n".join(save_contents))
 
     ge = time.time()
