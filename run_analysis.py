@@ -8,6 +8,7 @@ from index_corpus import formIndex
 from detect_intertexuality import detectIntertextuality
 from compile_and_filter_results import compileFilter
 from align_quotes import alignQuotes
+from form_quote_system import createNetwork
 
 ####################
 # ANALYSIS OPTIONS #
@@ -49,6 +50,12 @@ alignedFile = "corpus_alignment.txt"
 
 # What should the network output file be called?
 networkFile = "edgetable.csv"
+
+# What shoud the viz output file be called (should be a .js file)
+vizFile = "edge_data.js"
+
+# Name of the file to store the text lengths:
+textLengthFile = "corpus_text_lengths.txt"
 
 #################
 # INDEX OPTIONS #
@@ -157,7 +164,8 @@ def run():
     #               setEncoding=characterEncoding)
 
     # create a visualization of the intertextuality
-    # createViz()
+    createViz(alignedFile, vizFile, docsToViz, textLengthFile, 
+              setEncoding=characterEncoding)
 
 if __name__ == "__main__":
     run()
