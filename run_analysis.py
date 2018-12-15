@@ -134,11 +134,33 @@ scoreLimit = 100
 # Which documents do you want to visualize? Must be a subset of alignmentDocs
 docsToViz = ["KR2a0018 梁書-唐-姚思廉_10","KR2a0024 南史-唐-李延壽_54","KR2a0018 梁書-唐-姚思廉_11"]
 
-##################
-# CORPUS DETAILS #
-##################
+#############################################
+# DETAILS THAT PROBABLY DON'T NEED CHANGING #
+#############################################
+
 # what is the character encoding of your files
 characterEncoding = "utf8"
+
+# How many child tasks to use for multiprocessing (only change if you know what
+# you are doing!)
+maxChildTasks=250
+
+# Front load long texts? This will process the longest texts first, speeding up
+# overall preformance, with a slight hit to RAM usage
+frontLoading=True
+
+ By default, the script will compare every document in the corpus
+# against every other document.
+# Optionally, you can provide a file with a list of titles to analyze
+# Set to None if you do not wish to use this. This will also default
+# to None if the listed file does not exist.
+# This file should just contain one filename per line seperated with a
+# carraige return.
+TEXTSTOANALYZE = None
+
+# You can also limit the part of the corpus you want to compare against
+# By default the provided texts to analyze will be compared against all docs
+CORPUSCOMPOSITION = None
 
 ################
 # RUN FUNCTION #
@@ -163,14 +185,11 @@ def run(runCorpusFormation, runIndex, runIntertextualityDetection,
 
     if runIntertextualityDetection:
         # Run the main intertextuality algorithm
-        
-        # Other options are  maxChildTasks=250,  frontLoading=True, 
-        # textsToAnalyze="filename.txt", corpusComposition="filename.txt"
-        # resultsDirectory="results"
         detectIntertextuality(seedLength, matchLength, threshhold, maxComp, 
                              pickleFile, hasPreppedIndex=buildIndex, 
                              indexFile=indexFile, DEBUG= False,
-                             setEncoding=characterEncoding)
+                             setEncoding=characterEncoding, 
+                             resultsDirectory=resultsCorpus)
 
     if runCompileResults:
         # Compile and filter the results
